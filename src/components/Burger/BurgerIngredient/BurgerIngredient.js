@@ -4,8 +4,6 @@ import React from 'react';
 const burgerIngredient = (props) => {
     let ingredient = null;
 
-    console.log(props);
-
     switch (props.type) {
         case ('bread-bottom'):
             ingredient = <div className={classes.BreadBottom}></div>;

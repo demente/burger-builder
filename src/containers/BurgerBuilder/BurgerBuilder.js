@@ -56,12 +56,30 @@ class BuilderBuilder extends Component {
     }
 
     render() {
+        const disabledInfo = {
+            ...this.state.ingredients
+        }
+        for(let key in disabledInfo){
+            disabledInfo[key] = disabledInfo[key] <=0
+        }
+        const purchasable = Object.keys({...this.state.ingredients}).map(
+            key => {
+                return disabledInfo[key]
+            }
+        ).reduce((s, el) =>{
+            return s && el;
+        },true);
+
         return (
             <>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls
                 ingredientAdded={this.addIngredientHandler} 
-                ingredientRemoved={this.removeIngredientHandler}/>
+                ingredientRemoved={this.removeIngredientHandler}
+                disabled = {disabledInfo}
+                price={this.state.totalPrice}
+                purchasable = {purchasable}
+                />
         
             </>
         );

@@ -21,6 +21,10 @@
     color: white;
 }
 
+.BuildControl .Less:disabled {
+    background-color: grey;
+}
+
 .BuildControl .More {
     background-color: #8F5E1E;
     color: white;
