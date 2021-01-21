@@ -1,6 +1,8 @@
 import { Component } from "react";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Burger from "./../../components/Burger/Burger";
+import Modal from '../../components/UI/Modal/Modal';
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -17,7 +19,8 @@ class BuilderBuilder extends Component {
             cheese: 0,
             meat: 0
         },
-        totalPrice: 4
+        totalPrice: 4,
+        purchasing: false
     }
 
     addIngredientHandler = (type) => {
@@ -38,7 +41,7 @@ class BuilderBuilder extends Component {
     removeIngredientHandler = (type) => {
         const oldCount = this.state.ingredients[type];
 
-        if(oldCount === 0){
+        if (oldCount === 0) {
             return;
         }
 
@@ -55,32 +58,40 @@ class BuilderBuilder extends Component {
         this.setState({ ingredients: updateIngredients, totalPrice: newPrice });
     }
 
+    purchaseHandler = () => {
+        this.setState({ purchasing: true });
+    }
+
     render() {
         const disabledInfo = {
             ...this.state.ingredients
         }
-        for(let key in disabledInfo){
-            disabledInfo[key] = disabledInfo[key] <=0
+        for (let key in disabledInfo) {
+            disabledInfo[key] = disabledInfo[key] <= 0
         }
-        const purchasable = Object.keys({...this.state.ingredients}).map(
+        const purchasable = Object.keys({ ...this.state.ingredients }).map(
             key => {
                 return disabledInfo[key]
             }
-        ).reduce((s, el) =>{
+        ).reduce((s, el) => {
             return s && el;
-        },true);
+        }, true);
 
         return (
             <>
+                <Modal show={this.state.purchasing}>
+                    <OrderSummary ingredients={this.state.ingredients} />
+                </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls
-                ingredientAdded={this.addIngredientHandler} 
-                ingredientRemoved={this.removeIngredientHandler}
-                disabled = {disabledInfo}
-                price={this.state.totalPrice}
-                purchasable = {purchasable}
+                    ingredientAdded={this.addIngredientHandler}
+                    ingredientRemoved={this.removeIngredientHandler}
+                    disabled={disabledInfo}
+                    price={this.state.totalPrice}
+                    purchasable={purchasable}
+                    ordered={this.purchaseHandler}
                 />
-        
+
             </>
         );
     }
