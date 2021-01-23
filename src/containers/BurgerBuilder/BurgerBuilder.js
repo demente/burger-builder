@@ -79,8 +79,13 @@ class BuilderBuilder extends Component {
 
         return (
             <>
-                <Modal show={this.state.purchasing}>
-                    <OrderSummary ingredients={this.state.ingredients} />
+                <Modal show={this.state.purchasing}
+                    modalClosed={() => this.setState({ purchasing: false })}>
+                    <OrderSummary 
+                    ingredients={this.state.ingredients}
+                    cancel= {() => this.setState({ purchasing: false })}
+                    order={() => console.log("Ordering")}
+                    />
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BuildControls
