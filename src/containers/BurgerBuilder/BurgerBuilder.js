@@ -85,6 +85,7 @@ class BuilderBuilder extends Component {
                     ingredients={this.state.ingredients}
                     cancel= {() => this.setState({ purchasing: false })}
                     order={() => console.log("Ordering")}
+                    price={this.state.totalPrice}
                     />
                 </Modal>
                 <Burger ingredients={this.state.ingredients} />
